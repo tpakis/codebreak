@@ -37,6 +37,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("junit:junit:4.13.2")
             }
         }
         val jvmMain by getting
