@@ -1,0 +1,5 @@
+.idea/
+.gradle/
+*.hprof
+/build/
+/codebreak/build/
