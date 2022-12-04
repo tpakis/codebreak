@@ -1,10 +1,11 @@
 package models
 
-import CodeGenerator
+import code.RandomCodeGenerator
+import code.models.Code
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.minutes
 
-data class GameParameters(val gameDuration: Duration, val maxAttempts: Int, val codeToBreak: Code = CodeGenerator.generateCode()) {
+data class GameParameters(val gameDuration: Duration, val maxAttempts: Int, val codeToBreak: Code = RandomCodeGenerator.generateRandomCode()) {
     companion object {
         val practice = GameParameters(gameDuration = Duration.INFINITE, 30)
         val easy = GameParameters(gameDuration = 10.minutes, 15)

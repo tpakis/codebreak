@@ -1,4 +1,4 @@
-package models
+package code.models
 
 enum class CodeDigit(private val id: Int) {
     White(0), Black(1), Blue(2), Aqua(3), Pink(4), Red(5), Orange(6), Yellow(7);

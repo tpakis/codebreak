@@ -1,8 +1,12 @@
-package models
+package code.models
 
 class Code private constructor() {
     private val _digits = mutableListOf<CodeDigit>()
     val digits: List<CodeDigit> get() = _digits.toList()
+
+    override fun toString(): String {
+        return "Code($digits)"
+    }
 
     companion object {
         operator fun invoke(digits: List<CodeDigit>): Code {

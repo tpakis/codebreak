@@ -1,13 +1,13 @@
-import models.Code
-import models.CodeDigit
+package code
+
+import code.models.Code
+import code.models.CodeDigit
 import kotlin.random.Random
 import kotlin.random.nextInt
 
 object RandomCodeGenerator {
     fun generateRandomCode(): Code {
-        val returnList = mutableListOf<CodeDigit>().apply {
-            repeat(times = 5) { add(randomDigit()) }
-        }
+        val returnList = (1..5).map { randomDigit() }
 
         return Code(returnList)
     }
