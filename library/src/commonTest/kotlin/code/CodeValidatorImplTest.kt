@@ -33,38 +33,68 @@ class CodeValidatorImplTest {
 
     @Test
     fun parametrized_tests() {
-        //     private val correctCode = Code(listOf(White, White, Yellow, Black, Red))
-        // White(0), Black(1), Blue(2), Aqua(3), Pink(4), Red(5), Orange(6), Yellow(7)
         val failureString = StringBuilder()
+
+        // Cases
         arrayOf(
-            TestCase(
+            TestCase( // 0
                 correctCode = correctCode,
                 codeInTest = Code(listOf(Blue, Aqua, Orange, Red, Pink)),
                 expectedResult = CodeValidator.Result.Wrong(rightDigits = 1, rightPositions = 0)
             ),
-            TestCase(
+            TestCase( // 1
                 correctCode = correctCode,
                 codeInTest = Code(listOf(Blue, Yellow, Orange, Red, Pink)),
                 expectedResult = CodeValidator.Result.Wrong(rightDigits = 2, rightPositions = 0)
             ),
-            TestCase(
+            TestCase( // 2
                 correctCode = correctCode,
                 codeInTest = Code(listOf(Blue, Yellow, Orange, Red, White)),
                 expectedResult = CodeValidator.Result.Wrong(rightDigits = 3, rightPositions = 0)
             ),
-            TestCase(
+            TestCase( // 3
                 correctCode = correctCode,
                 codeInTest = Code(listOf(Black, Yellow, Orange, Red, White)),
                 expectedResult = CodeValidator.Result.Wrong(rightDigits = 4, rightPositions = 0)
-            )
-        ).forEach { testCase ->
+            ),
+            TestCase( // 4
+                correctCode = correctCode,
+                codeInTest = Code(listOf(White, Blue, Orange, Aqua, Orange)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 1, rightPositions = 1)
+            ),
+            TestCase( // 5
+                correctCode = correctCode,
+                codeInTest = Code(listOf(Blue, Orange, Yellow, Red, Pink)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 2, rightPositions = 1)
+            ),
+            TestCase( // 6
+                correctCode = correctCode,
+                codeInTest = Code(listOf(Blue, Orange, Yellow, Red, White)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 3, rightPositions = 1)
+            ),
+            TestCase( // 7
+                correctCode = Code(listOf(Blue, Blue, Blue, Blue, Blue)),
+                codeInTest = Code(listOf(Blue, Orange, Yellow, Red, White)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 1, rightPositions = 1)
+            ),
+            TestCase( // 8
+                correctCode = Code(listOf(Blue, Blue, Red, Red, Blue)),
+                codeInTest = Code(listOf(Blue, Orange, Yellow, Red, White)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 2, rightPositions = 2)
+            ),
+            TestCase( // 9
+                correctCode = Code(listOf(Blue, Blue, Blue, Blue, Blue)),
+                codeInTest = Code(listOf(Red, Red, Red, Red, Red)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigits = 0, rightPositions = 0)
+            ),
+        ).forEachIndexed { index, testCase ->
             classToTest = CodeValidatorImpl(correctCode = testCase.correctCode)
 
             val result = classToTest.validate(testCase.codeInTest)
 
             testCase.failureMessage
                 .takeIf { result != testCase.expectedResult }
-                ?.also { failureString.append("\n $it") }
+                ?.also { failureString.append("\n case($index) $it") }
         }
 
         assertEquals(expected = "", actual = failureString.toString())

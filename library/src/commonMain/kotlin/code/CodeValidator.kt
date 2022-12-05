@@ -1,6 +1,7 @@
 package code
 
 import code.models.Code
+import code.models.CodeDigit
 
 interface CodeValidator {
     fun validate(code: Code) : Result
@@ -12,9 +13,22 @@ interface CodeValidator {
 }
 
 class CodeValidatorImpl(private val correctCode: Code): CodeValidator  {
+
     override fun validate(code: Code): CodeValidator.Result {
         if (code == correctCode) return CodeValidator.Result.Correct
 
-        return CodeValidator.Result.Wrong(0, 0)
+        var correctPositionsCount = 0
+        val correctDigits = mutableSetOf<CodeDigit>()
+
+        code.digits.forEachIndexed { index, digit ->
+            if (digit == correctCode.digits[index]) {
+                correctPositionsCount++
+            }
+            if (correctCode.digits.contains(digit)) {
+                correctDigits.add(digit)
+            }
+        }
+        return CodeValidator.Result.Wrong(rightPositions = correctPositionsCount, rightDigits = correctDigits.size)
     }
+
 }
