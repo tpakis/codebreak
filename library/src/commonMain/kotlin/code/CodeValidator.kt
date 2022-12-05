@@ -3,7 +3,7 @@ package code
 import code.models.Code
 import code.models.CodeDigit
 
-interface CodeValidator {
+internal interface CodeValidator {
     fun validate(code: Code) : Result
 
     sealed class Result {
@@ -12,7 +12,7 @@ interface CodeValidator {
     }
 }
 
-class CodeValidatorImpl(private val correctCode: Code): CodeValidator  {
+internal class CodeValidatorImpl(private val correctCode: Code): CodeValidator  {
 
     override fun validate(code: Code): CodeValidator.Result {
         if (code == correctCode) return CodeValidator.Result.Correct
