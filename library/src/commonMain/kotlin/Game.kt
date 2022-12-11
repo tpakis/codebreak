@@ -14,25 +14,24 @@ import models.BreakAttempt
 import models.GameParameters
 import models.GameResult
 import models.GameState
+import util.GameTimer
+import kotlin.time.Duration.Companion.INFINITE
 import kotlin.time.Duration.Companion.seconds
 
 class Game internal constructor(
     private val codeValidator: CodeValidator,
     private val parameters: GameParameters,
-    dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val gameTimer: GameTimer,
 ) {
-    private val scope = CoroutineScope(dispatcher)
-    private var countDownJbb: Job? = null
+    private val isGameRunning: Boolean get() = _gameState.value is GameState.Running
+    private val isGameFinished: Boolean get() = _gameState.value is GameState.Finished
+    private val canStartGame: Boolean get() = _gameState.value is GameState.NotStarted || _gameState.value is GameState.Paused
+    private val isGameTimeConstrained = parameters.gameDuration != INFINITE
 
     private val _gameState = MutableStateFlow<GameState>(GameState.NotStarted)
     val gameState: StateFlow<GameState> get() = _gameState.asStateFlow()
 
-    private val _remainingGameTimeInSeconds = MutableStateFlow(parameters.gameDuration.inWholeSeconds)
-    val remainingGameTimeInSeconds: StateFlow<Long> get() = _remainingGameTimeInSeconds.asStateFlow()
-
-    private val isGameRunning: Boolean get() = _gameState.value is GameState.Running
-    private val isGameFinished: Boolean get() = _gameState.value is GameState.Finished
-    private val canStartGame: Boolean get() = _gameState.value is GameState.NotStarted || _gameState.value is GameState.Paused
+    val remainingGameTimeInSeconds: StateFlow<Long> get() = gameTimer.remainingGameTimeInSeconds.asStateFlow()
 
     fun startOrResume() {
         if (canStartGame) {
@@ -42,18 +41,8 @@ class Game internal constructor(
     }
 
     private fun startTimer() {
-        countDownJbb = scope.launch {
-            while (_remainingGameTimeInSeconds.value > 0L) {
-                delay(1.seconds)
-                nextSecondPassed()
-            }
-        }
-    }
-
-    private fun nextSecondPassed() {
-        _remainingGameTimeInSeconds.value = _remainingGameTimeInSeconds.value - 1
-        if (_remainingGameTimeInSeconds.value == 0L) {
-            lostGame()
+        if (isGameTimeConstrained) {
+            gameTimer.start { lostGame() }
         }
     }
 
@@ -72,7 +61,11 @@ class Game internal constructor(
 
         _gameState.value = when {
             newBreakAttempt.isCorrect -> GameState.Finished(GameResult.WON, newBreakAttemptsList)
-            newBreakAttemptsList.size == parameters.maxAttempts -> GameState.Finished(GameResult.LOST, newBreakAttemptsList)
+            newBreakAttemptsList.size == parameters.maxAttempts -> GameState.Finished(
+                GameResult.LOST,
+                newBreakAttemptsList
+            )
+
             else -> GameState.Running(newBreakAttemptsList)
         }
     }
@@ -101,28 +94,31 @@ class Game internal constructor(
     }
 
     private fun stopTimer() {
-        countDownJbb?.cancel()
-        countDownJbb = null
+        gameTimer.stop()
     }
-
-
-    private fun Code.toBreakAttempt(validationResult: CodeValidator.Result): BreakAttempt = when (validationResult) {
-        is CodeValidator.Result.Correct -> BreakAttempt(
-            code = this,
-            rightDigits = digits.size,
-            rightPositions = digits.size
-        )
-
-        is CodeValidator.Result.Wrong -> BreakAttempt(
-            code = this,
-            rightDigits = validationResult.rightDigits,
-            rightPositions = validationResult.rightPositions
-        )
-    }
-
 
     companion object {
+        const val NO_TIME_CONSTRAINT = -1L
+
         fun createNew(parameters: GameParameters): Game =
-            Game(codeValidator = CodeValidatorImpl(parameters.codeToBreak), parameters = parameters)
+            Game(
+                codeValidator = CodeValidatorImpl(parameters.codeToBreak),
+                parameters = parameters,
+                gameTimer = GameTimer(parameters.gameDuration)
+            )
     }
+}
+
+private fun Code.toBreakAttempt(validationResult: CodeValidator.Result): BreakAttempt = when (validationResult) {
+    is CodeValidator.Result.Correct -> BreakAttempt(
+        code = this,
+        rightDigits = digits.size,
+        rightPositions = digits.size
+    )
+
+    is CodeValidator.Result.Wrong -> BreakAttempt(
+        code = this,
+        rightDigits = validationResult.rightDigits,
+        rightPositions = validationResult.rightPositions
+    )
 }

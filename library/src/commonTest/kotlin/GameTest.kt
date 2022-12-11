@@ -10,6 +10,7 @@ import kotlinx.coroutines.test.runTest
 import models.GameParameters
 import models.GameResult
 import models.GameState
+import util.GameTimer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -21,7 +22,9 @@ class GameTest {
     private val parameters: GameParameters = GameParameters.easy
     private val dispatcher: CoroutineDispatcher = StandardTestDispatcher()
 
-    private val classToTest = Game(codeValidator, parameters, dispatcher)
+    private val gameTimer: GameTimer = GameTimer(parameters.gameDuration, dispatcher)
+
+    private val classToTest = Game(codeValidator, parameters, gameTimer)
 
     @Test
     fun startOrResume_should_start_the_game_when_it_is_not_started() {
