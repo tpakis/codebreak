@@ -13,7 +13,7 @@ object RandomCodeGenerator {
     }
 
     private fun randomDigit(): CodeDigit {
-        val index = Random.nextInt(IntRange(0, CodeDigit.values().size))
+        val index = Random.nextInt(IntRange(0, CodeDigit.values().size - 1))
         return CodeDigit.values()[index]
     }
 }

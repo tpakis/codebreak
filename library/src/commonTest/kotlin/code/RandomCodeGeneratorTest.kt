@@ -1,4 +1,5 @@
-import code.RandomCodeGenerator
+package code
+
 import kotlin.test.Test
 import kotlin.test.assertNotNull
 
