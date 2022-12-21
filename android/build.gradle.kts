@@ -28,6 +28,7 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:${Versions.compose_ui}")
     debugImplementation("androidx.compose.ui:ui-tooling:${Versions.compose_ui}")
     debugImplementation("androidx.compose.ui:ui-test-manifest:${Versions.compose_ui}")
+    implementation("androidx.compose.material:material-icons-extended:${Versions.extended_icons}")
 }
 
 android {

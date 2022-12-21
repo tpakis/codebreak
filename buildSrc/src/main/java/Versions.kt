@@ -3,4 +3,5 @@ object Versions {
     const val androidCompileSdk = 33
     const val androidTargetSdk = androidCompileSdk
     const val compose_ui = "1.3.2"
+    const val extended_icons = "1.3.1"
 }
