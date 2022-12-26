@@ -6,3 +6,5 @@
 library/build/
 
 android/build/
+
+.DS_Store

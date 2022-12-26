@@ -1,5 +1,6 @@
 package aithanasakis.com.android
 
+import aithanasakis.com.android.ui.screens.GameScreen
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,9 +12,11 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import models.GameParameters
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val game = Game.createNew(GameParameters.easy)
         super.onCreate(savedInstanceState)
         setContent {
             BreakCodeTheme {
@@ -22,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    GameScreen(game)
                 }
             }
         }

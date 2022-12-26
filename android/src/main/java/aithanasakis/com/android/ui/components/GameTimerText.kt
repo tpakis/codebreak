@@ -27,7 +27,7 @@ fun GameTimerText(modifier: Modifier = Modifier, fontSize: TextUnit = TextUnit.U
     val inlineContentId = "inlineContentId"
     val text = buildAnnotatedString {
         append("${minutes.toTwoDigits()} : ${seconds.toTwoDigits()} ")
-        appendInlineContent(inlineContentId, "")
+        appendInlineContent(inlineContentId, "alternate")
     }
 
     val inlineContent = mapOf(
@@ -39,7 +39,7 @@ fun GameTimerText(modifier: Modifier = Modifier, fontSize: TextUnit = TextUnit.U
                     placeholderVerticalAlign = PlaceholderVerticalAlign.Center
                 )
             ) {
-                Icon(Icons.Rounded.AvTimer, "Remaining Game Time", modifier.fillMaxSize())
+                Icon(Icons.Rounded.AvTimer, "Remaining Game Time", Modifier.fillMaxSize())
             }
         )
     )
