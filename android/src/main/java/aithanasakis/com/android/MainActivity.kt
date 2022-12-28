@@ -1,22 +1,23 @@
 package aithanasakis.com.android
 
+import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.screens.GameScreen
+import aithanasakis.com.android.ui.screens.InitialScreen
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import models.GameParameters
 
 class MainActivity : ComponentActivity() {
+    private val viewModel: GameViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val game = Game.createNew(GameParameters.easy)
         super.onCreate(savedInstanceState)
         setContent {
             BreakCodeTheme {
@@ -25,22 +26,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    GameScreen(game)
+                    val game = viewModel.playingGame.collectAsState().value
+                    when (game) {
+                        null -> InitialScreen(viewModel)
+                        else -> GameScreen(game)
+                    }
                 }
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    BreakCodeTheme {
-        Greeting("Android")
     }
 }

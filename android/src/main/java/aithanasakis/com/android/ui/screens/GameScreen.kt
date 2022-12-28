@@ -1,6 +1,5 @@
 package aithanasakis.com.android.ui.screens
 
-
 import Game
 import aithanasakis.com.android.ui.components.GameTimerText
 import androidx.compose.foundation.layout.*
