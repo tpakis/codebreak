@@ -1,26 +1,26 @@
 package aithanasakis.com.android.ui.components
 
-import android.content.res.Resources.Theme
-import androidx.compose.foundation.background
 import androidx.compose.foundation.focusable
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 
 @Composable
 fun FocusableGameButton(modifier: Modifier = Modifier, onClick: () -> Unit, text: String) {
-    var focused by remember { mutableStateOf(false) }
-    val backgroundColor = if (focused) Color.Cyan else Color.DarkGray
+    val interactionSource = remember { MutableInteractionSource() }
+    val focused = interactionSource.collectIsFocusedAsState().value
+    val backgroundColor = when {
+        focused -> MaterialTheme.colors.primary
+        else -> Color.LightGray
+    }
+
     Button(
-        modifier = modifier
-            .focusable(true)
-            .onFocusChanged {focused = it.isFocused }
-            .background(color = backgroundColor),
-        onClick = onClick
+        modifier = modifier.focusable(interactionSource = interactionSource),
+        onClick = onClick,
+        colors = ButtonDefaults.buttonColors(backgroundColor = backgroundColor)
     ) {
         Text(text = text)
     }
