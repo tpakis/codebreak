@@ -1,12 +1,11 @@
 package aithanasakis.com.android.ui.screens
 
 import Game
+import aithanasakis.com.android.ui.components.CodeInputRow
 import aithanasakis.com.android.ui.components.FocusableGameButton
 import aithanasakis.com.android.ui.components.GameTimerText
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
 import androidx.compose.material.Text
-
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,22 +16,46 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
-import models.GameParameters
 import models.GameState
 
 @Composable
 fun GameScreen(game: Game) {
     Box(modifier = Modifier.fillMaxSize()) {
-        Column(
-            modifier = Modifier.align(Alignment.TopEnd).height(400.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Timer(game.remainingGameTimeInSeconds)
-            GameRunControls(game = game)
+        Column {
+            Row(modifier = Modifier.weight(1f)) {
+                AttemptsList(modifier = Modifier.weight(1f), gameStateFlow = game.gameState)
+                Column {
+                    Timer(game.remainingGameTimeInSeconds)
+                    GameRunControls(modifier = Modifier.align(alignment = Alignment.CenterHorizontally), game = game)
+                }
+            }
+            InputRow(
+                modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(bottom = 8.dp),
+                game = game
+            )
+
         }
     }
 
 }
+
+@Composable
+fun AttemptsList(modifier: Modifier = Modifier, gameStateFlow: StateFlow<GameState>) {
+    Row(modifier) {
+        Text("Text")
+    }
+}
+
+
+@Composable
+fun InputRow(modifier: Modifier = Modifier, game: Game) {
+    CodeInputRow(
+        modifier = modifier,
+        width = 400.dp,
+        onCheckClick = game::tryNewCode
+    )
+}
+
 
 @Composable
 fun Timer(timeFlow: StateFlow<Long>) {
@@ -55,7 +78,7 @@ fun GameRunControls(
     val buttonModifier = Modifier
         .size(height = 64.dp, width = 160.dp)
         .padding(8.dp)
-    Column {
+    Column(modifier = modifier) {
         when (gameState) {
             is GameState.NotStarted -> {
                 FocusableGameButton(

@@ -15,9 +15,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import code.RandomCodeGenerator
+import code.models.Code
 
 @Composable
-fun CodeInputRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = Color.Transparent, onCheckClick: () -> Unit) {
+fun CodeInputRow(
+    modifier: Modifier = Modifier,
+    width: Dp,
+    borderColor: Color = Color.Transparent,
+    onCheckClick: (codeToCheck: Code) -> Unit
+) {
     Row(
         modifier.width(width),
         horizontalArrangement = Arrangement.Center,
@@ -34,11 +41,11 @@ fun CodeInputRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = 
             )
         }
         Spacer(Modifier.size(Dp(height / 2)))
-        Button(modifier = Modifier.height(Dp(height/1.5f)), onClick = onCheckClick) {
+        Button(
+            modifier = Modifier.height(Dp(height / 1.5f)),
+            onClick = { onCheckClick(RandomCodeGenerator.generateRandomCode()) }) {
             Text("Check Code", style = TextStyle(fontSize = 10.sp))
         }
-
-
     }
 }
 
