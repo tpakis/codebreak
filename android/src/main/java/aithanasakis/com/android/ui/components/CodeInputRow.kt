@@ -1,6 +1,6 @@
 package aithanasakis.com.android.ui.components
 
-import aithanasakis.com.android.ui.model.AttemptUiModel
+import aithanasakis.com.android.ui.CodeInputHandler
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.util.Log
 import androidx.compose.foundation.layout.*
@@ -22,7 +22,6 @@ import code.models.Code
 fun CodeInputRow(
     modifier: Modifier = Modifier,
     width: Dp,
-    borderColor: Color = Color.Transparent,
     onCheckClick: (codeToCheck: Code) -> Unit
 ) {
     Row(
@@ -32,12 +31,19 @@ fun CodeInputRow(
     ) {
         val height = width.value / 9
 
-        repeat(5) {
-            ColouredCircle(
+        repeat(5) { index ->
+            FocusableColourCircle(
                 modifier = Modifier.padding(4.dp),
                 diameter = Dp(height),
                 borderColor = Color.Black,
-                fillColor = Color.LightGray
+                fillColor = Color.LightGray,
+                onFocusChange = { isFocused ->
+                    if (isFocused) {
+                        CodeInputHandler.codeDigitFocused(index)
+                    } else {
+                        CodeInputHandler.clearDigitFocus()
+                    }
+                }
             )
         }
         Spacer(Modifier.size(Dp(height / 2)))
