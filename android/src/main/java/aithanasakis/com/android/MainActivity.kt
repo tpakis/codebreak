@@ -5,6 +5,7 @@ import aithanasakis.com.android.ui.screens.GameScreen
 import aithanasakis.com.android.ui.screens.InitialScreen
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.os.Bundle
+import android.view.KeyEvent
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -34,5 +35,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (viewModel.keyPressHandled(keyCode)) {
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
     }
 }
