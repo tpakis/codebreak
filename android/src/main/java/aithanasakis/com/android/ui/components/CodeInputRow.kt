@@ -3,10 +3,12 @@ package aithanasakis.com.android.ui.components
 import aithanasakis.com.android.ui.CodeInputHandler
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +26,8 @@ fun CodeInputRow(
     width: Dp,
     onCheckClick: (codeToCheck: Code) -> Unit
 ) {
+    val selectedColors = CodeInputHandler.codeInputUiState.collectAsState().value.map { it.color }
+
     Row(
         modifier.width(width),
         horizontalArrangement = Arrangement.Center,
@@ -36,7 +40,7 @@ fun CodeInputRow(
                 modifier = Modifier.padding(4.dp),
                 diameter = Dp(height),
                 borderColor = Color.Black,
-                fillColor = Color.LightGray,
+                fillColor = selectedColors[index],
                 onFocusChange = { isFocused ->
                     if (isFocused) {
                         CodeInputHandler.codeDigitFocused(index)
@@ -47,9 +51,12 @@ fun CodeInputRow(
             )
         }
         Spacer(Modifier.size(Dp(height / 2)))
+
         Button(
             modifier = Modifier.height(Dp(height / 1.5f)),
-            onClick = { onCheckClick(RandomCodeGenerator.generateRandomCode()) }) {
+            enabled = CodeInputHandler.getCodeInput() != null,
+            onClick = { CodeInputHandler.getCodeInput()?.let(onCheckClick) },
+        ) {
             Text("Check Code", style = TextStyle(fontSize = 10.sp))
         }
     }
