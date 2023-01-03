@@ -83,19 +83,19 @@ class GameTest {
     @Test
     fun gameState_should_contain_the_attempt_when_tryNewCode_is_wrong() = runTest(dispatcher) {
         classToTest.startOrResume()
-        codeValidator.expectedResult = CodeValidator.Result.Wrong(rightPositions = 1, rightDigits = 2)
+        codeValidator.expectedResult = CodeValidator.Result.Wrong(rightDigitInPosition = 1, rightDigitOffPosition = 2)
 
         classToTest.tryNewCode(RandomCodeGenerator.generateRandomCode())
 
         assertTrue { classToTest.gameState.value is GameState.Running }
-        assertEquals(expected = 1, actual = classToTest.gameState.value.breakAttempts.first().rightPositions )
-        assertEquals(expected = 2, actual = classToTest.gameState.value.breakAttempts.first().rightDigits )
+        assertEquals(expected = 1, actual = classToTest.gameState.value.breakAttempts.first().rightDigitInPosition )
+        assertEquals(expected = 2, actual = classToTest.gameState.value.breakAttempts.first().rightDigitOffPosition )
     }
 
     @Test
     fun game_should_finish_as_lost_when_the_max_amount_of_attempts_is_reached_without_solution() = runTest(dispatcher) {
         classToTest.startOrResume()
-        codeValidator.expectedResult = CodeValidator.Result.Wrong(rightPositions = 1, rightDigits = 2)
+        codeValidator.expectedResult = CodeValidator.Result.Wrong(rightDigitInPosition = 1, rightDigitOffPosition = 2)
         val randomCode = RandomCodeGenerator.generateRandomCode()
 
         repeat(parameters.maxAttempts) {

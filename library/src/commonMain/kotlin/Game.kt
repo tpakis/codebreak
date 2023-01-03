@@ -1,12 +1,6 @@
 import code.CodeValidator
 import code.CodeValidatorImpl
 import code.models.Code
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +10,6 @@ import models.GameResult
 import models.GameState
 import util.GameTimer
 import kotlin.time.Duration.Companion.INFINITE
-import kotlin.time.Duration.Companion.seconds
 
 class Game internal constructor(
     private val codeValidator: CodeValidator,
@@ -112,13 +105,13 @@ class Game internal constructor(
 private fun Code.toBreakAttempt(validationResult: CodeValidator.Result): BreakAttempt = when (validationResult) {
     is CodeValidator.Result.Correct -> BreakAttempt(
         code = this,
-        rightDigits = digits.size,
-        rightPositions = digits.size
+        rightDigitOffPosition = digits.size,
+        rightDigitInPosition = digits.size
     )
 
     is CodeValidator.Result.Wrong -> BreakAttempt(
         code = this,
-        rightDigits = validationResult.rightDigits,
-        rightPositions = validationResult.rightPositions
+        rightDigitOffPosition = validationResult.rightDigitOffPosition,
+        rightDigitInPosition = validationResult.rightDigitInPosition
     )
 }

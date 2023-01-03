@@ -8,10 +8,10 @@ import models.BreakAttempt
 object AttemptUiModelMapper {
     fun BreakAttempt.toUiModel(index: Int): AttemptUiModel {
         val badgeColors = mutableListOf<Color>().apply {
-            repeat(rightPositions) {
+            repeat(rightDigitInPosition) {
                 add(Color.Black)
             }
-            repeat(rightDigits) {
+            repeat(rightDigitOffPosition) {
                 add(Color.White)
             }
         }
