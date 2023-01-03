@@ -1,11 +1,8 @@
 package aithanasakis.com.android.ui.screens
 
 import Game
-import aithanasakis.com.android.ui.components.CodeInputRow
-import aithanasakis.com.android.ui.components.FocusableGameButton
-import aithanasakis.com.android.ui.components.GameTimerText
+import aithanasakis.com.android.ui.components.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,35 +14,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.StateFlow
 import models.GameState
+import kotlin.time.Duration.Companion.days
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.seconds
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @Composable
-fun GameScreen(game: Game) {
-    Box(modifier = Modifier.fillMaxSize()) {
-        Column {
-            Row(modifier = Modifier.weight(1f)) {
-                AttemptsList(modifier = Modifier.weight(1f), gameStateFlow = game.gameState)
-                Column {
-                    Timer(game.remainingGameTimeInSeconds)
-                    GameRunControls(modifier = Modifier.align(alignment = Alignment.CenterHorizontally), game = game)
-                }
+fun GameScreen(game: Game, onQuitGame: () -> Unit) {
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.weight(1f)) {
+            AttemptsList(modifier = Modifier.weight(1f), gameStateFlow = game.gameState)
+            Column {
+                Timer(game.remainingGameTimeInSeconds)
+                GameRunControls(modifier = Modifier.align(alignment = Alignment.CenterHorizontally), game, onQuitGame)
+                ColorsShowcase(modifier = Modifier.align(alignment = Alignment.End).padding(top = 12.dp, end = 24.dp))
             }
-            InputRow(
-                modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(bottom = 8.dp),
-                game = game
-            )
-
         }
-    }
+        InputRow(
+            modifier = Modifier.align(alignment = Alignment.CenterHorizontally).padding(bottom = 8.dp),
+            game = game
+        )
 
-}
-
-@Composable
-fun AttemptsList(modifier: Modifier = Modifier, gameStateFlow: StateFlow<GameState>) {
-    Row(modifier) {
-        Text("Text")
     }
 }
-
 
 @Composable
 fun InputRow(modifier: Modifier = Modifier, game: Game) {
@@ -59,12 +51,16 @@ fun InputRow(modifier: Modifier = Modifier, game: Game) {
 
 @Composable
 fun Timer(timeFlow: StateFlow<Long>) {
-    val remainingTime = timeFlow.collectAsState().value
+    val remainingTime = timeFlow.collectAsState().value.toDuration(DurationUnit.SECONDS)
 
     GameTimerText(
         modifier = Modifier.padding(top = 16.dp, end = 16.dp, bottom = 8.dp),
         fontSize = 45.sp,
-        remainingMillis = remainingTime.times(1000)
+        remainingMillis = if (remainingTime < 1.days) {
+            remainingTime.inWholeMilliseconds
+        } else {
+            (99.minutes + 59.seconds).inWholeMilliseconds
+        }
     )
 }
 
@@ -72,12 +68,13 @@ fun Timer(timeFlow: StateFlow<Long>) {
 fun GameRunControls(
     modifier: Modifier = Modifier,
     game: Game,
+    onQuitGame: () -> Unit
 ) {
     val firstFocusRequester = FocusRequester()
     val gameState = game.gameState.collectAsState().value
     val buttonModifier = Modifier
-        .size(height = 64.dp, width = 160.dp)
-        .padding(8.dp)
+        .size(height = 50.dp, width = 140.dp)
+        .padding(top = 8.dp)
     Column(modifier = modifier) {
         when (gameState) {
             is GameState.NotStarted -> {
@@ -92,10 +89,13 @@ fun GameRunControls(
                 FocusableGameButton(
                     onClick = { game.pause() },
                     text = "Pause Game",
-                    modifier = buttonModifier
+                    modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
                 FocusableGameButton(
-                    onClick = { game.quit() },
+                    onClick = {
+                        game.quit()
+                        onQuitGame()
+                    },
                     text = "Quit Game",
                     modifier = buttonModifier
                 )
@@ -105,10 +105,13 @@ fun GameRunControls(
                 FocusableGameButton(
                     onClick = { game.startOrResume() },
                     text = "Resume Game",
-                    modifier = buttonModifier
+                    modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
                 FocusableGameButton(
-                    onClick = { game.quit() },
+                    onClick = {
+                        game.quit()
+                        onQuitGame()
+                    },
                     text = "Quit Game",
                     modifier = buttonModifier
                 )
@@ -116,14 +119,17 @@ fun GameRunControls(
 
             is GameState.Finished -> {
                 FocusableGameButton(
-                    onClick = { game.quit() },
+                    onClick = {
+                        game.quit()
+                        onQuitGame()
+                    },
                     text = "Quit Game",
-                    modifier = buttonModifier
+                    modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
             }
         }
     }
-    LaunchedEffect("key") {
+    LaunchedEffect(gameState::class.simpleName) {
         firstFocusRequester.requestFocus()
     }
 }

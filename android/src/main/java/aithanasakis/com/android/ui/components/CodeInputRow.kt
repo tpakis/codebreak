@@ -3,7 +3,6 @@ package aithanasakis.com.android.ui.components
 import aithanasakis.com.android.ui.CodeInputHandler
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
@@ -17,7 +16,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import code.RandomCodeGenerator
 import code.models.Code
 
 @Composable
@@ -52,13 +50,13 @@ fun CodeInputRow(
         }
         Spacer(Modifier.size(Dp(height / 2)))
 
-        Button(
+        FocusableGameButton(
             modifier = Modifier.height(Dp(height / 1.5f)),
             enabled = CodeInputHandler.getCodeInput() != null,
             onClick = { CodeInputHandler.getCodeInput()?.let(onCheckClick) },
-        ) {
-            Text("Check Code", style = TextStyle(fontSize = 10.sp))
-        }
+            text = "Check Code",
+            fontSize = 10.sp,
+        )
     }
 }
 

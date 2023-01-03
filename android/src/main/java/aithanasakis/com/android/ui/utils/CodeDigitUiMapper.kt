@@ -5,9 +5,9 @@ import code.models.CodeDigit
 
 object CodeDigitUiMapper {
     fun CodeDigit?.toUiModel(): CodeDigitUiModel {
-        val codeDigit = this ?: return CodeDigitUiModel.LightGray
+        val codeDigit = this ?: return CodeDigitUiModel.Transparent
 
-        return CodeDigitUiModel.values().firstOrNull { it.name == codeDigit.name } ?: CodeDigitUiModel.LightGray
+        return CodeDigitUiModel.values().firstOrNull { it.name == codeDigit.name } ?: CodeDigitUiModel.Transparent
     }
 
 }

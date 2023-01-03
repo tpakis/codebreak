@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     val game = viewModel.playingGame.collectAsState().value
                     when (game) {
                         null -> InitialScreen(viewModel)
-                        else -> GameScreen(game)
+                        else -> GameScreen(game, viewModel::clearGame)
                     }
                 }
             }

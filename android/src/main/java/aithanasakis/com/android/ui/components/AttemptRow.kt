@@ -3,6 +3,7 @@ package aithanasakis.com.android.ui.components
 import aithanasakis.com.android.ui.model.AttemptUiModel
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun AttemptRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = Color.Transparent, attemptUiModel: AttemptUiModel) {
+fun AttemptRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = Color.Black, attemptUiModel: AttemptUiModel) {
     Row(modifier.requiredWidth(width), horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
         with(attemptUiModel) {
             val height = width.value / (2 * codeColors.size + 1)
@@ -32,7 +33,7 @@ fun AttemptRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = Co
                 ColouredCircle(modifier = Modifier.padding(1.dp), diameter = Dp(height / 2), borderColor = borderColor, fillColor = it)
             }
             repeat(times = codeColors.size - badgesColors.size) {
-                ColouredCircle(modifier = Modifier.padding(1.dp), diameter = Dp(height / 2), borderColor = Color.White, fillColor = Color.Transparent)
+                ColouredCircle(modifier = Modifier.padding(1.dp), diameter = Dp(height / 2), borderColor = borderColor, fillColor = MaterialTheme.colors.background)
             }
         }
     }

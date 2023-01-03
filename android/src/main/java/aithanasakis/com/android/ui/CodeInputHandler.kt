@@ -31,6 +31,12 @@ object CodeInputHandler {
         focusedIndex = NO_FOCUS
     }
 
+    fun clearAll() {
+        focusedIndex = NO_FOCUS
+        codeInput.replaceAll { null }
+        _codeInputUiState.value = codeInput.map { it.toUiModel() }
+    }
+
     fun getCodeInput(): Code? {
         return try {
             Code(codeInput.filterNotNull())

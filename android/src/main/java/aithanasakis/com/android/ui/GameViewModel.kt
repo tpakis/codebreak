@@ -17,6 +17,11 @@ class GameViewModel : ViewModel() {
         _playingGame.value = Game.createNew(gameParameters)
     }
 
+    fun clearGame() {
+        _playingGame.value = null
+        CodeInputHandler.clearAll()
+    }
+
     fun keyPressHandled(keyCode: Int): Boolean {
         val codeDigit = keyCode.toCodeDigit() ?: return false
 
@@ -26,14 +31,14 @@ class GameViewModel : ViewModel() {
 
     private fun Int.toCodeDigit(): CodeDigit? {
         return when (this) {
-            KeyEvent.KEYCODE_1 -> CodeDigit.White
-            KeyEvent.KEYCODE_2 -> CodeDigit.Black
-            KeyEvent.KEYCODE_3 -> CodeDigit.Blue
-            KeyEvent.KEYCODE_4 -> CodeDigit.Aqua
-            KeyEvent.KEYCODE_5 -> CodeDigit.Pink
-            KeyEvent.KEYCODE_6 -> CodeDigit.Red
-            KeyEvent.KEYCODE_7 -> CodeDigit.Orange
-            KeyEvent.KEYCODE_8 -> CodeDigit.Yellow
+            KeyEvent.KEYCODE_1 -> CodeDigit.getById(0)
+            KeyEvent.KEYCODE_2 -> CodeDigit.getById(1)
+            KeyEvent.KEYCODE_3 -> CodeDigit.getById(2)
+            KeyEvent.KEYCODE_4 -> CodeDigit.getById(3)
+            KeyEvent.KEYCODE_5 -> CodeDigit.getById(4)
+            KeyEvent.KEYCODE_6 -> CodeDigit.getById(5)
+            KeyEvent.KEYCODE_7 -> CodeDigit.getById(6)
+            KeyEvent.KEYCODE_8 -> CodeDigit.getById(7)
             else -> null
         }
     }
