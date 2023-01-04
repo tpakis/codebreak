@@ -137,6 +137,16 @@ class CodeValidatorImplTest {
                 codeInTest = Code(listOf(Aqua, Red, Yellow, Blue, Yellow)),
                 expectedResult = CodeValidator.Result.Wrong(rightDigitOffPosition = 2, rightDigitInPosition = 0)
             ),
+            TestCase( // 20
+                correctCode = Code(listOf(Red, White, Black, Yellow, Red)),
+                codeInTest = Code(listOf(Red, Red, Red, Red, Red)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigitOffPosition = 0, rightDigitInPosition = 2)
+            ),
+            TestCase( // 21
+                correctCode = Code(listOf(Red, White, Black, Yellow, Blue)),
+                codeInTest = Code(listOf(Red, Red, Red, Red, Red)),
+                expectedResult = CodeValidator.Result.Wrong(rightDigitOffPosition = 0, rightDigitInPosition = 1)
+            ),
         ).forEachIndexed { index, testCase ->
             classToTest = CodeValidatorImpl(correctCode = testCase.correctCode)
 

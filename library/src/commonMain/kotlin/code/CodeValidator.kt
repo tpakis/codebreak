@@ -17,26 +17,31 @@ internal class CodeValidatorImpl(private val correctCode: Code) : CodeValidator 
     override fun validate(code: Code): CodeValidator.Result {
         if (code == correctCode) return CodeValidator.Result.Correct
 
-        val codeDigitsInCorrectPositions = mutableListOf<CodeDigit>()
+        val codeDigitsInCorrectPositionsIndexes = mutableListOf<Int>()
         val codeDigitsInWrongPositions = mutableListOf<CodeDigit>()
-        var correctDigitsInWrongPositionsCount = 0
+
 
         code.digits.forEachIndexed { index, codeDigit ->
             if (codeDigit == correctCode.digits[index]) {
-                codeDigitsInCorrectPositions.add(codeDigit)
+                codeDigitsInCorrectPositionsIndexes.add(index)
             } else {
                 codeDigitsInWrongPositions.add(codeDigit)
             }
         }
 
+        val correctCodeDigitsWithoutCorrectPosition =
+            correctCode.digits.filterIndexed { index, _ -> !codeDigitsInCorrectPositionsIndexes.contains(index) }
+
+        var correctGuessesInWrongPositionsCount = 0
         codeDigitsInWrongPositions.toSet().forEach { digit ->
-            if (correctCode.digits.contains(digit)) {
-                correctDigitsInWrongPositionsCount++
+            if (correctCodeDigitsWithoutCorrectPosition.contains(digit)) {
+                correctGuessesInWrongPositionsCount++
             }
         }
+
         return CodeValidator.Result.Wrong(
-            rightDigitInPosition = codeDigitsInCorrectPositions.size,
-            rightDigitOffPosition = correctDigitsInWrongPositionsCount
+            rightDigitInPosition = codeDigitsInCorrectPositionsIndexes.size,
+            rightDigitOffPosition = correctGuessesInWrongPositionsCount
         )
     }
 
