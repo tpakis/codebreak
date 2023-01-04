@@ -1,4 +1,4 @@
-package aithanasakis.com.android.ui.theme
+package aithanasakis.com.desktop.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

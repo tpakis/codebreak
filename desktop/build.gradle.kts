@@ -2,7 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose").version("1.2.2")
+    id("org.jetbrains.compose").version("1.3.0-rc01")
 }
 
 repositories {
@@ -13,11 +13,13 @@ repositories {
 
 dependencies {
     implementation(compose.desktop.currentOs)
+    implementation(compose.materialIconsExtended)
+    implementation(project(":library"))
 }
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "aithanasakis.com.desktop.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
