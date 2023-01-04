@@ -27,6 +27,19 @@ object CodeInputHandler {
         }
     }
 
+    fun setNextDigitForFocused() {
+        if (focusedIndex > NO_FOCUS) {
+            val currentCodeDigit = codeInput[focusedIndex]
+            val nextCodeDigit = if (currentCodeDigit == null) {
+                CodeDigit.values().first()
+            } else {
+                val currentIndex = CodeDigit.values().indexOf(currentCodeDigit)
+                CodeDigit.values().getOrElse(index = currentIndex + 1) { CodeDigit.values().first() }
+            }
+            newCodeDigitInput(nextCodeDigit)
+        }
+    }
+
     fun clearDigitFocus() {
         focusedIndex = NO_FOCUS
     }

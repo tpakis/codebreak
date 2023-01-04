@@ -45,7 +45,8 @@ fun CodeInputRow(
                     } else {
                         CodeInputHandler.clearDigitFocus()
                     }
-                }
+                },
+                onClick = CodeInputHandler::setNextDigitForFocused
             )
         }
         Spacer(Modifier.size(Dp(height / 2)))
