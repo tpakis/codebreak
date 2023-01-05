@@ -1,5 +1,6 @@
 package aithanasakis.com.android.ui.screens
 
+import aithanasakis.com.android.translations.LocalTextProvider
 import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.components.FocusableGameButton
 import androidx.compose.foundation.layout.*
@@ -26,25 +27,25 @@ fun InitialScreen(viewModel: GameViewModel) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Welcome to Code Breaker!", fontSize = 36.sp)
+        Text(LocalTextProvider.current.welcome, fontSize = 36.sp)
         Spacer(modifier = Modifier.size(16.dp))
         FocusableGameButton(
-            text = "Easy",
+            text = LocalTextProvider.current.easy,
             onClick = { viewModel.createNewGame(GameParameters.easy) },
             modifier = buttonModifier.focusRequester(focusRequester)
         )
         FocusableGameButton(
-            text = "Normal",
+            text = LocalTextProvider.current.medium,
             onClick = { viewModel.createNewGame(GameParameters.normal) },
             modifier = buttonModifier
         )
         FocusableGameButton(
-            text = "Hard",
+            text = LocalTextProvider.current.hard,
             onClick = { viewModel.createNewGame(GameParameters.hard) },
             modifier = buttonModifier
         )
         FocusableGameButton(
-            text = "Practice",
+            text = LocalTextProvider.current.practice,
             onClick = { viewModel.createNewGame(GameParameters.practice) },
             modifier = buttonModifier
         )

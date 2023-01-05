@@ -1,5 +1,6 @@
 package aithanasakis.com.android.ui.components
 
+import aithanasakis.com.android.translations.LocalTextProvider
 import aithanasakis.com.android.ui.utils.AttemptUiModelMapper.toUiModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,7 +25,7 @@ fun AttemptsList(modifier: Modifier = Modifier, gameStateFlow: StateFlow<GameSta
 
 
     Column(modifier = modifier.padding(16.dp)) {
-        Text(modifier = Modifier.padding(bottom = 16.dp), text = "Code break Attempts", fontSize = 20.sp)
+        Text(modifier = Modifier.padding(bottom = 16.dp), text = LocalTextProvider.current.attempts, fontSize = 20.sp)
         Row(modifier = modifier.padding(start = 16.dp, end = 16.dp)) {
             breakAttemptsLists.forEachIndexed { listIndex, attempts ->
                 val baseIndex = listIndex * halfIndex + 1

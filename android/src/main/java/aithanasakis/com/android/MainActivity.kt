@@ -1,5 +1,7 @@
 package aithanasakis.com.android
 
+import aithanasakis.com.android.translations.LocalTextProvider
+import aithanasakis.com.android.translations.TextProvider
 import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.screens.GameScreen
 import aithanasakis.com.android.ui.screens.InitialScreen
@@ -12,8 +14,10 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.intl.Locale
 
 class MainActivity : ComponentActivity() {
     private val viewModel: GameViewModel by viewModels()
@@ -21,16 +25,19 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            BreakCodeTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    val game = viewModel.playingGame.collectAsState().value
-                    when (game) {
-                        null -> InitialScreen(viewModel)
-                        else -> GameScreen(game, viewModel::clearGame)
+            val textProvider = TextProvider.getByLanguage(Locale.current.language)
+            CompositionLocalProvider(LocalTextProvider provides textProvider) {
+                BreakCodeTheme {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colors.background
+                    ) {
+                        val game = viewModel.playingGame.collectAsState().value
+                        when (game) {
+                            null -> InitialScreen(viewModel)
+                            else -> GameScreen(game, viewModel::clearGame)
+                        }
                     }
                 }
             }

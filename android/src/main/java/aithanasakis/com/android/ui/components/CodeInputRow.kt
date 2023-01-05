@@ -1,5 +1,6 @@
 package aithanasakis.com.android.ui.components
 
+import aithanasakis.com.android.translations.LocalTextProvider
 import aithanasakis.com.android.ui.CodeInputHandler
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import android.util.Log
@@ -55,7 +56,7 @@ fun CodeInputRow(
             modifier = Modifier.height(Dp(height / 1.5f)),
             enabled = CodeInputHandler.getCodeInput() != null,
             onClick = { CodeInputHandler.getCodeInput()?.let(onCheckClick) },
-            text = "Check Code",
+            text = LocalTextProvider.current.checkCode,
             fontSize = 10.sp,
         )
     }

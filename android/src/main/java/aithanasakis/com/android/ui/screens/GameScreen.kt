@@ -1,6 +1,7 @@
 package aithanasakis.com.android.ui.screens
 
 import Game
+import aithanasakis.com.android.translations.LocalTextProvider
 import aithanasakis.com.android.ui.components.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
@@ -96,15 +97,15 @@ fun GameRunControls(
             is GameState.NotStarted -> {
                 FocusableGameButton(
                     onClick = { game.startOrResume() },
-                    text = "Start Game",
-                    modifier = buttonModifier.focusRequester(firstFocusRequester)
+                    text = LocalTextProvider.current.startGame,
+                    modifier = buttonModifier.focusRequester(firstFocusRequester),
                 )
             }
 
             is GameState.Running -> {
                 FocusableGameButton(
                     onClick = { game.pause() },
-                    text = "Pause Game",
+                    text = LocalTextProvider.current.pauseGame,
                     modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
                 FocusableGameButton(
@@ -112,7 +113,7 @@ fun GameRunControls(
                         game.quit()
                         onQuitGame()
                     },
-                    text = "Quit Game",
+                    text = LocalTextProvider.current.quitGame,
                     modifier = buttonModifier
                 )
             }
@@ -120,7 +121,7 @@ fun GameRunControls(
             is GameState.Paused -> {
                 FocusableGameButton(
                     onClick = { game.startOrResume() },
-                    text = "Resume Game",
+                    text = LocalTextProvider.current.resumeGame,
                     modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
                 FocusableGameButton(
@@ -128,7 +129,7 @@ fun GameRunControls(
                         game.quit()
                         onQuitGame()
                     },
-                    text = "Quit Game",
+                    text = LocalTextProvider.current.quitGame,
                     modifier = buttonModifier
                 )
             }
@@ -139,7 +140,7 @@ fun GameRunControls(
                         game.quit()
                         onQuitGame()
                     },
-                    text = "Quit Game",
+                    text = LocalTextProvider.current.quitGame,
                     modifier = buttonModifier.focusRequester(firstFocusRequester)
                 )
             }

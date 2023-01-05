@@ -1,5 +1,6 @@
 package aithanasakis.com.android.ui.components
 
+import aithanasakis.com.android.translations.LocalTextProvider
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import aithanasakis.com.android.ui.utils.CodeDigitUiMapper.toUiModel
 import androidx.compose.foundation.layout.*
@@ -42,7 +43,7 @@ fun WinDialog(modifier: Modifier = Modifier, onDismiss: () -> Unit = {}) {
             elevation = 8.dp
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "You won!", modifier = Modifier.padding(16.dp), fontSize = 24.sp)
+                Text(text = LocalTextProvider.current.won, modifier = Modifier.padding(16.dp), fontSize = 24.sp)
                 Icon(Icons.Rounded.CheckCircle, modifier = Modifier.size(100.dp), contentDescription = "Won", tint = Color.Green)
                 FocusableGameButton(text = "OK", modifier = Modifier.padding(16.dp), onClick = onDismiss, focusRequester = focusRequester)
             }
@@ -63,7 +64,7 @@ fun LostDialog(modifier: Modifier = Modifier, correctCode: Code, onDismiss: () -
             elevation = 8.dp
         ) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(text = "You Lost! The Correct Code Was:", modifier = Modifier.padding(16.dp), fontSize = 24.sp)
+                Text(text = LocalTextProvider.current.lost, modifier = Modifier.padding(16.dp), fontSize = 24.sp)
                 Row(modifier = Modifier.padding(bottom = 16.dp)) {
                     correctCode.digits.forEach { digit ->
                         ColouredCircle(
