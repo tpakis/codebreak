@@ -16,9 +16,9 @@ fun FocusableGameButton(
     onClick: () -> Unit,
     text: String,
     fontSize: TextUnit = MaterialTheme.typography.button.fontSize,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    focusRequester: FocusRequester = FocusRequester(),
 ) {
-    val focusRequester = FocusRequester()
     val interactionSource = remember { MutableInteractionSource() }
     val focused = interactionSource.collectIsFocusedAsState().value
     val backgroundColor = when {

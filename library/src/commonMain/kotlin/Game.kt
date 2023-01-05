@@ -90,6 +90,8 @@ class Game internal constructor(
         gameTimer.stop()
     }
 
+    fun getCodeToBreak() = parameters.codeToBreak
+
     companion object {
         const val NO_TIME_CONSTRAINT = -1L
 

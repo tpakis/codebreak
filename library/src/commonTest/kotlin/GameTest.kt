@@ -160,4 +160,11 @@ class GameTest {
         assertTrue { classToTest.gameState.value is GameState.Finished }
         assertEquals(expected = GameResult.WON, actual = (classToTest.gameState.value as GameState.Finished).result )
     }
+
+    @Test
+    fun getCodeToBreak_should_return_the_correct_code() {
+        val correctCode = classToTest.getCodeToBreak()
+
+        assertEquals(expected = parameters.codeToBreak, correctCode)
+    }
 }

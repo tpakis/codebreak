@@ -3,9 +3,7 @@ package aithanasakis.com.desktop.ui.screens
 import Game
 import aithanasakis.com.desktop.ui.components.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -20,15 +18,33 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
+
 @Composable
 fun GameScreen(game: Game, onQuitGame: () -> Unit) {
+    var showEndGameDialog by remember { mutableStateOf(false) }
+
+    if (showEndGameDialog && game.gameState.value is GameState.Finished) {
+        GameResultDialog(
+            gameResult = (game.gameState.value as GameState.Finished).result,
+            correctCode = game.getCodeToBreak(),
+            onDismiss = { showEndGameDialog = false }
+        )
+    }
+
     Column(modifier = Modifier.fillMaxSize()) {
         Row(modifier = Modifier.weight(1f)) {
             AttemptsList(modifier = Modifier.weight(1f), gameStateFlow = game.gameState)
             Column {
                 Timer(game.remainingGameTimeInSeconds)
-                GameRunControls(modifier = Modifier.align(alignment = Alignment.CenterHorizontally), game, onQuitGame)
-                ColorsShowcase(modifier = Modifier.align(alignment = Alignment.End).padding(top = 12.dp, end = 24.dp))
+                GameRunControls(
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally),
+                    game = game,
+                    onQuitGame = onQuitGame,
+                    onGameFinished = { showEndGameDialog = true },
+                )
+                ColorsShowcase(
+                    modifier = Modifier.align(alignment = Alignment.End).padding(top = 12.dp, end = 24.dp)
+                )
             }
         }
         InputRow(
@@ -68,7 +84,8 @@ fun Timer(timeFlow: StateFlow<Long>) {
 fun GameRunControls(
     modifier: Modifier = Modifier,
     game: Game,
-    onQuitGame: () -> Unit
+    onQuitGame: () -> Unit,
+    onGameFinished: () -> Unit,
 ) {
     val firstFocusRequester = FocusRequester()
     val gameState = game.gameState.collectAsState().value
@@ -129,7 +146,11 @@ fun GameRunControls(
             }
         }
     }
+
     LaunchedEffect(gameState::class.simpleName) {
         firstFocusRequester.requestFocus()
+        if (gameState is GameState.Finished) {
+            onGameFinished()
+        }
     }
 }
