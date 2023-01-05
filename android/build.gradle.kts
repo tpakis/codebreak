@@ -31,6 +31,7 @@ dependencies {
     implementation("androidx.compose.material:material-icons-extended:${Versions.extended_icons}")
 
     implementation(project(":library"))
+    implementation(project(":translations"))
 }
 
 android {

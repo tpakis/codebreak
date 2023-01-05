@@ -10,11 +10,13 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.key.key
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.WindowState
 import androidx.compose.ui.window.application
+import translations.TextProvider
 
 private val viewModel = GameViewModel()
 
@@ -27,18 +29,23 @@ fun main() = application {
             viewModel.keyPressHandled(it.key.keyCode.toInt())
         }
     ) {
-        BreakCodeTheme {
-            // A surface container using the 'background' color from the theme
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colors.background
-            ) {
-                val game = viewModel.playingGame.collectAsState().value
-                when (game) {
-                    null -> InitialScreen(viewModel)
-                    else -> GameScreen(game, viewModel::clearGame)
+        val textProvider = TextProvider.getByLanguage(Locale.current.language)
+        CompositionLocalProvider(LocalTextProvider provides textProvider) {
+            BreakCodeTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    val game = viewModel.playingGame.collectAsState().value
+                    when (game) {
+                        null -> InitialScreen(viewModel)
+                        else -> GameScreen(game, viewModel::clearGame)
+                    }
                 }
             }
         }
     }
 }
+
+val LocalTextProvider = compositionLocalOf<TextProvider> { translations.EnglishTextProvider() }

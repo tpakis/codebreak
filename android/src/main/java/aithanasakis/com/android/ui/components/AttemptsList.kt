@@ -1,6 +1,6 @@
 package aithanasakis.com.android.ui.components
 
-import aithanasakis.com.android.translations.LocalTextProvider
+import aithanasakis.com.android.LocalTextProvider
 import aithanasakis.com.android.ui.utils.AttemptUiModelMapper.toUiModel
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

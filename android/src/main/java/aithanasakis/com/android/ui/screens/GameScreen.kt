@@ -1,7 +1,7 @@
 package aithanasakis.com.android.ui.screens
 
 import Game
-import aithanasakis.com.android.translations.LocalTextProvider
+import aithanasakis.com.android.LocalTextProvider
 import aithanasakis.com.android.ui.components.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*

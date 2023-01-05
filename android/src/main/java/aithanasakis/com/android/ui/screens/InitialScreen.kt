@@ -1,6 +1,6 @@
 package aithanasakis.com.android.ui.screens
 
-import aithanasakis.com.android.translations.LocalTextProvider
+import aithanasakis.com.android.LocalTextProvider
 import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.components.FocusableGameButton
 import androidx.compose.foundation.layout.*

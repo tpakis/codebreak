@@ -6,5 +6,5 @@
 library/build/
 android/build/
 Desktop/build/
-
+translations/build/
 .DS_Store

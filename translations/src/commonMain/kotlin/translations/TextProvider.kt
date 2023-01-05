@@ -1,8 +1,4 @@
-package aithanasakis.com.android.translations
-
-import androidx.compose.runtime.compositionLocalOf
-
-val LocalTextProvider = compositionLocalOf<TextProvider> { EnglishTextProvider() }
+package translations
 
 interface TextProvider {
     val welcome: String
@@ -18,6 +14,7 @@ interface TextProvider {
     val checkCode: String
     val won: String
     val lost: String
+    val gameEnd: String
 
     companion object {
         fun getByLanguage(language: String): TextProvider = if (language.equals("el", ignoreCase = true)) {
@@ -42,6 +39,7 @@ class EnglishTextProvider : TextProvider {
     override val checkCode: String = "Check Code"
     override val won: String = "You Won!"
     override val lost: String = "You Lost! The Correct Code Was:"
+    override val gameEnd: String = "Game Ended"
 }
 
 class GreekTextProvider : TextProvider {
@@ -58,4 +56,5 @@ class GreekTextProvider : TextProvider {
     override val checkCode: String = "Έλεγχος"
     override val won: String = "Νίκησες!"
     override val lost: String = "Έχασες! Ο σωστός κώδικας ήταν:"
+    override val gameEnd: String = "Τέλος Παιχνιδιού"
 }

@@ -1,7 +1,5 @@
 package aithanasakis.com.android
 
-import aithanasakis.com.android.translations.LocalTextProvider
-import aithanasakis.com.android.translations.TextProvider
 import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.screens.GameScreen
 import aithanasakis.com.android.ui.screens.InitialScreen
@@ -16,8 +14,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.intl.Locale
+import translations.TextProvider
 
 class MainActivity : ComponentActivity() {
     private val viewModel: GameViewModel by viewModels()
@@ -50,4 +50,7 @@ class MainActivity : ComponentActivity() {
         }
         return super.onKeyDown(keyCode, event)
     }
+
 }
+
+val LocalTextProvider = compositionLocalOf<TextProvider> { translations.EnglishTextProvider() }

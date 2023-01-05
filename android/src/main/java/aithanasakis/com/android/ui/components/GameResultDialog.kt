@@ -1,6 +1,6 @@
 package aithanasakis.com.android.ui.components
 
-import aithanasakis.com.android.translations.LocalTextProvider
+import aithanasakis.com.android.LocalTextProvider
 import aithanasakis.com.android.ui.theme.BreakCodeTheme
 import aithanasakis.com.android.ui.utils.CodeDigitUiMapper.toUiModel
 import androidx.compose.foundation.layout.*

@@ -15,6 +15,7 @@ dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
     implementation(project(":library"))
+    implementation(project(":translations"))
 }
 
 compose.desktop {
