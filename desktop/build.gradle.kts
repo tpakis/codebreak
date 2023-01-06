@@ -24,8 +24,17 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "KotlinJvmComposeDesktopApplication"
+            packageName = "CodeBreakerDesktopApplication"
             packageVersion = "1.0.0"
+            macOS {
+                iconFile.set(project.file("code-breaker.icns"))
+            }
+            windows {
+                iconFile.set(project.file("code-breaker.ico"))
+            }
+            linux {
+                iconFile.set(project.file("code-breaker.png"))
+            }
         }
     }
 }
