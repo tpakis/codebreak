@@ -2,7 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose").version("1.3.0-rc01")
+    id("org.jetbrains.compose").version(Versions.compose_multiplatform)
 }
 
 repositories {
@@ -14,8 +14,8 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation(compose.materialIconsExtended)
-    implementation(project(":library"))
-    implementation(project(":translations"))
+    implementation(project(Deps.Modules.gameLibrary))
+    implementation(project(Deps.Modules.translations))
 }
 
 compose.desktop {
