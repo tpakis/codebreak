@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    kotlin("kapt")
     id("kotlin-android-extensions")
 }
 
@@ -29,7 +30,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:${Versions.compose_ui}")
     debugImplementation("androidx.compose.ui:ui-test-manifest:${Versions.compose_ui}")
     implementation("androidx.compose.material:material-icons-extended:${Versions.extended_icons}")
-
+    implementation("com.airbnb.android:showkase:${Versions.showkase_version}")
+    kapt("com.airbnb.android:showkase-processor:${Versions.showkase_version}")
     implementation(project(":library"))
     implementation(project(":translations"))
 }

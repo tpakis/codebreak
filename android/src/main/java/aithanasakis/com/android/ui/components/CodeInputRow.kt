@@ -59,7 +59,7 @@ fun CodeInputRow(
     }
 }
 
-@Preview
+@Preview(name = "Code Input Row", group = "Code Input")
 @Composable
 fun PreviewCodeInputRow() {
     BreakCodeTheme {

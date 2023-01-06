@@ -51,7 +51,7 @@ private fun ColorsListWithKeyLabel(modifier: Modifier = Modifier) {
     }
 }
 
-@Preview
+@Preview(name = "Colors Showcase", group = "Colors")
 @Composable
 fun ColorsShowcaseVerticalPreview() {
     BreakCodeTheme {

@@ -86,7 +86,7 @@ fun LostDialog(modifier: Modifier = Modifier, correctCode: Code, onDismiss: () -
     }
 }
 
-@Preview
+@Preview(name = "Win Dialog", group = "Result Dialogs")
 @Composable
 fun WinDialogPreview() {
     BreakCodeTheme {
@@ -94,7 +94,7 @@ fun WinDialogPreview() {
     }
 }
 
-@Preview
+@Preview(name = "Lose Dialog", group = "Result Dialogs")
 @Composable
 fun LostDialogPreview() {
     BreakCodeTheme {

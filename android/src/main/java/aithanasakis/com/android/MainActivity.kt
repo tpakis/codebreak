@@ -1,5 +1,6 @@
 package aithanasakis.com.android
 
+import aithanasakis.com.android.showkase.getBrowserIntent
 import aithanasakis.com.android.ui.GameViewModel
 import aithanasakis.com.android.ui.screens.GameScreen
 import aithanasakis.com.android.ui.screens.InitialScreen
@@ -17,6 +18,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.intl.Locale
+import com.airbnb.android.showkase.models.Showkase
 import translations.TextProvider
 
 class MainActivity : ComponentActivity() {
@@ -46,6 +48,10 @@ class MainActivity : ComponentActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (viewModel.keyPressHandled(keyCode)) {
+            return true
+        } else if (keyCode == KeyEvent.KEYCODE_P && BuildConfig.DEBUG) {
+            //  adb shell input keyevent 44
+            startActivity(Showkase.getBrowserIntent(this))
             return true
         }
         return super.onKeyDown(keyCode, event)

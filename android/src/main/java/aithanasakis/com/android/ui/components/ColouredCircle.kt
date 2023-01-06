@@ -25,7 +25,7 @@ fun ColouredCircle(modifier: Modifier = Modifier, diameter: Dp = 100.dp, borderC
     }
 }
 
-@Preview
+@Preview(name = "Colored Circle", group = "Colors")
 @Composable
 fun PreviewCircle() {
     BreakCodeTheme {

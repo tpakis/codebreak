@@ -48,7 +48,7 @@ fun GameTimerText(modifier: Modifier = Modifier, fontSize: TextUnit = TextUnit.U
 
 private fun Long.toTwoDigits(): String = if (this in (-9..9)) "0$this" else "$this"
 
-@Preview
+@Preview(name = "Game Timer", group = "Game Controls")
 @Composable
 fun GameTimerTextPreview() {
     BreakCodeTheme {

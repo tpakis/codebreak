@@ -39,7 +39,7 @@ fun AttemptRow(modifier: Modifier = Modifier, width: Dp, borderColor: Color = Co
     }
 }
 
-@Preview
+@Preview(name = "Attempt Row", group = "Attempts list")
 @Composable
 fun PreviewAttempt() {
     BreakCodeTheme {
